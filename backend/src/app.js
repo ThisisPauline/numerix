@@ -31,6 +31,9 @@ app.get("/", (req, res) => {
     });
 });
 
+const numberRouter = require("../numbers/numberRouter");
+app.use("/numbers", numberRouter);
+
 app.listen(BACKEND_PORT, () => {
   console.log("Listening on port", BACKEND_PORT);
 });
