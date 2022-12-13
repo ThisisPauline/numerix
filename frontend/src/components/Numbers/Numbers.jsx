@@ -5,7 +5,7 @@ import "./numbers.css";
 
 const Numbers = () => {
   const [existingNumber, setExistingNumber] = useState([]);
-  const [newNumber, setNewNumber] = useState([]);
+  const [chosenNumber, setChosenNumber] = useState([]);
 
   const backendURL = "http://localhost:5005";
 
@@ -13,11 +13,13 @@ const Numbers = () => {
     axios
       .get(`${backendURL}/numbers`)
       .then((response) => response.data)
-      .then((data) => setExistingNumber(data));
-  }, []);
+      .then((data) => setExistingNumber(data)),
+      [existingNumber];
+  });
 
   console.log(existingNumber);
   if (existingNumber === undefined) return <p>Loading...</p>;
+  if (chosenNumber === undefined) return <p>Loading...</p>;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,24 +36,32 @@ const Numbers = () => {
   return (
     <div>
       <div>
-        {existingNumber.length != 0 ? (
-          <h1>{existingNumber[0].chosenNumber}</h1>
-        ) : (
-          <p>Loading...</p>
-        )}
+        <h1 className="past-number">{chosenNumber}</h1>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
         <label htmlFor="Number">Introduce your number:</label>
         <input
-          type="text"
-          id="number"
-          value={newNumber}
-          onChange={(e) => setNewNumber(e.target.value)}
+          type="number"
+          id="chosenNumber"
+          value={chosenNumber}
+          onChange={(e) => {
+            setChosenNumber(e.target.value);
+          }}
         />
         <button className="button-submit" type="submit">
           Submit your number
         </button>
       </form>
+      <div>
+        <h2 className="past-number">
+          Here are all the numbers present in the database
+        </h2>
+        <div className="old-numbers">
+          {existingNumber.map((number) => (
+            <p>{number.chosenNumber}</p>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
