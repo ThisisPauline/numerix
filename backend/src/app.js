@@ -8,6 +8,10 @@ const BACKEND_PORT = process.env.BACKEND_PORT ?? 5005;
 
 const database = require("./database");
 
+const cors = require("cors");
+
+app.use(cors());
+
 app.get("/", (req, res) => {
   let output = "";
   let error = false;
