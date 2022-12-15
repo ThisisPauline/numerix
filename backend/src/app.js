@@ -3,10 +3,15 @@ require("dotenv").config();
 const express = require("express");
 
 const app = express();
+app.use(express.json());
 
 const BACKEND_PORT = process.env.BACKEND_PORT ?? 5005;
 
 const database = require("./database");
+
+const cors = require("cors");
+
+app.use(cors());
 
 app.get("/", (req, res) => {
   let output = "";
